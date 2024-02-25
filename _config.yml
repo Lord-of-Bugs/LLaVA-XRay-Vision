@@ -1,5 +1,5 @@
-title: Tactile theme
-description: Tactile is a theme for GitHub Pages.
-show_downloads: true
+title: LLaVA X-Ray Vision
+description: A data science capstone project exploring Deep Learning, Medical Imaging, and multi-modal Large Language Models.
+show_downloads: false
 google_analytics:
 theme: jekyll-theme-tactile
