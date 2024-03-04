@@ -1,0 +1,23 @@
+<div class="people" style="display: flex; flex-basis: 100%; padding: 15px;">
+    {% if page.photo %}
+    <img class="staffer-image" style="border-radius: 50%; height: 150px;
+    margin-right: 15px;" src="{{ page.photo }}" alt="{{ page.name }}">
+    {% endif %}
+    <div>
+        <h3 class="staffer-name" style="margin: 5px;">
+        {% if page.website %}
+        <a href="{{ page.website }}" target="_blank">{{ page.name }}</a>
+        {% else %}
+        {{ page.name }}
+        {% endif %}
+        </h3>
+        {% if page.type %}
+        <p><b>{{ page.type }}</b></p>
+        {% endif %}
+        {% if page.email %}
+        <p>Email contact: {{ page.email }}</p>
+        {% endif %}
+
+        {{ content }}
+    </div>
+</div>
