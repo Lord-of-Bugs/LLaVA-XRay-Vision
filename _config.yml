@@ -79,8 +79,7 @@ defaults:
     values:
       layout: people
       subpath: '/assets/images/'
-  -
-    scope:
+  - scope:
       path: ""
       type: "pages"
     values:

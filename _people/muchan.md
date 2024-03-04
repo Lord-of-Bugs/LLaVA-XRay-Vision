@@ -1,7 +1,7 @@
 ---
 name: Muchan Li
 role: Student
-email: mul005@ucsd.edu
+email: mul005[at]ucsd[dot]edu
 photo: ../assets/images/muchan.jpg
 website: https://www.linkedin.com/in/muchan-li-989703227/
 ---

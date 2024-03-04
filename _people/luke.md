@@ -1,7 +1,7 @@
 ---
 name: Luke Taylor
 role: Student
-email: lwtaylor@ucsd.edu
+email: lwtaylor[at]ucsd[dot]edu
 photo: ../assets/images/luke.png
-website: https://www.linkedin.com/in/muchan-li-989703227/
+website: https://www.linkedin.com/in/luke-taylor-86a4a6207/
 ---
