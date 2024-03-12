@@ -20,6 +20,8 @@ This is a a Data Science Capstone Project investigated and put together by **Luk
 
 Deep learning models like convolutional neurla networks (CNNs) have demonstrated promising ways of application in automating radiograph analysis, detecting conditions such as pulmonary edema, pneumothorax, and so forth. However, vast amount of data other than the radiographs has been left out, such radiologist reports, in the modeling process and can potentially make automation and predicition more accurate and usable. Inspired by advancements in Large Language Models (LLMs) and Vision Transformers (ViTs), we’re exploring multi-modal models that integrate text and image data for improved results.
 
+![Multi-modal model](./imgs/image3.gif)
+
 ## Objectives
 
 1. Navigate how multi-modal models are used to leverage both X-Ray reports and images to generate reports.
@@ -32,6 +34,7 @@ Deep learning models like convolutional neurla networks (CNNs) have demonstrated
 ## Methods
 
 - About 100K Chest Radiographs and their text reports from UCSD Health
+  - Among which, about 97000 images are used to fine-tune the model, and about 2000 images are reserved as the test set.
 - Fine-tuned a Large Language Model (LLM) with vision capabilities instead of training both a vision CNN tower and a LLM from scratch
 - Using Large Language and Vision Assistant v1.5 (LLaVA)[1][2][3] as the base model which is based on Vicuna 13B v1.5 and CLIP ViT-L/14 visual encoder
 - Input is an X-ray and then a prompt that may include information about the previous clinical history and additional patient context.
@@ -41,6 +44,58 @@ Deep learning models like convolutional neurla networks (CNNs) have demonstrated
 - Extracted label probabilities for common lung conditions using Facebook BART zero shot classification to evaluate diagnostic accuracy.
 
 ## Results and Analysis
+
+### Similarity Between Generated Reports and Ground Truth
+
+![top-similarity](./imgs/top-10-similarity-author-medians.png)
+Click on each radiologist's name below to learn model's performance with respect to each individual:
+<details>
+  <summary>👨‍⚕️ Dr. Seth Kligerman</summary>
+  <img src="./imgs/Kligerman-similarity.png"/>
+</details>
+<details>
+  <summary>👨‍⚕️ Dr. Lewis Hahn</summary>
+  <img src="./imgs/Hahn-similarity.png"/>
+</details>
+<details>
+  <summary>👨‍⚕️ Dr. Michael Horowitz</summary>
+  <img src="./imgs/Horowitz-similarity.png"/>
+</details>
+<details>
+  <summary>👨‍⚕️ Dr. Ravi Rajpoot</summary>
+  <img src="./imgs/Rajpoot-similarity.png"/>
+</details>
+<details>
+  <summary>👩‍⚕️ Dr. Sharon Brouha</summary>
+  <img src="./imgs/Brouha-similarity.png"/>
+</details>
+<details>
+  <summary>👩‍⚕️ Dr. Kathleen Jacobs</summary>
+  <img src="./imgs/Jacobs-similarity.png"/>
+</details>
+<details>
+  <summary>👩‍⚕️ Dr. Elizabeth Weihe</summary>
+  <img src="./imgs/Weihe-similarity.png"/>
+</details>
+<details>
+  <summary>👨‍⚕️ Dr. Albert Hsiao</summary>
+  <img src="./imgs/Hsiao-similarity.png"/>
+</details>
+<details>
+  <summary>👨‍⚕️ Dr. William Ladd</summary>
+  <img src="./imgs/Ladd-similarity.png"/>
+</details>
+<details>
+  <summary>👨‍⚕️ Dr. Andrew Yen</summary>
+  <img src="./imgs/Yen-similarity.png">
+</details>
+
+### Pathology Detection Outcomes
+
+<div><img src="./imgs/roc_curves_final_generic2.png" width=370/><img src="./imgs/roc_curves_final.png" width=370/></div>
+<div><img src="./imgs/report_similarity_generic_2.png" width=370/><img src="./imgs/report_similarity_context_embedded.png" width=370/></div>
+
+![confusion-matrix](./imgs/confusion_matrices.png)
 
 ## Future Directions
 
