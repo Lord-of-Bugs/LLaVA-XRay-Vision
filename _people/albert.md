@@ -1,7 +1,7 @@
 ---
 name: Albert Hsiao MD, PhD
 role: Mentor
-email: a3hsiao[at]health.ucsd[dot]edu
+email: a3hsiao[at]health[dot]ucsd[dot]edu
 photo: ../assets/images/albert1.png
 website: https://profiles.ucsd.edu/albert.hsiao
 ---
