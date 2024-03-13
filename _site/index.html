@@ -265,9 +265,14 @@
   <li>Extracted label probabilities for common lung conditions using Facebook BART zero shot classification to evaluate diagnostic accuracy.</li>
 </ul>
 
-<h2 id="results-and-analysis">Results and Analysis</h2>
+<h2 id="findings-and-results">Findings and Results</h2>
 
-<h3 id="similarity-between-generated-reports-and-ground-truth">Similarity Between Generated Reports and Ground Truth</h3>
+<h3 id="expert-radiologists">Expert Radiologists</h3>
+
+<h3 id="similarity-between-generated-reports-and-expert-ground-truths">Similarity Between Generated Reports and Expert Ground Truths</h3>
+
+<div><img src="./imgs/radiologist_findings_lengths.png" width="370" /><img src="./imgs/llava_findings_lengths.png" width="370" /></div>
+<div><img src="./imgs/radiologist_impression_lengths.png" width="370" /><img src="./imgs/llava_impression_lengths.png" width="370" /></div>
 
 <p><img src="./imgs/top-10-similarity-author-medians.png" alt="top-similarity" />
 Click on each radiologist’s name below to learn model’s performance with respect to each individual:</p>
@@ -312,7 +317,80 @@ Click on each radiologist’s name below to learn model’s performance with res
   <img src="./imgs/Yen-similarity.png" />
 </details>
 
+<h3 id="prompts-constructed">Prompts Constructed</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">Generic Prompt</th>
+      <th style="text-align: center">Context Embedded Prompt</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center">Write a report for the given chest x-ray. It should contain a clear findings and impression section.  Be explicit for any abnormalities or normal findings.</td>
+      <td style="text-align: center">AUTHOR: {…}, CLINICAL HISTORY: {…}, CONTEXT: {…}, AGE: {…}, SEX: {…}, Based on AUTHOR and CLINICAL HISTORY, suppose you were a radiologist on X-RAY,  could you provide a detailed report from this chest X-ray?</td>
+    </tr>
+  </tbody>
+</table>
+
 <h3 id="pathology-detection-outcomes">Pathology Detection Outcomes</h3>
+
+<div style="text-align:center;">
+  <img src="./imgs/Hofupo_53628087.jpg" width="370" /><img src="./imgs/Dietepscat_53989429.jpg" width="370" />
+  <figcaption>Pathology Present (Left) vs. Normal (Right) Chest X-Ray</figcaption>
+</div>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">Radiologist Report (Left)</th>
+      <th style="text-align: center">Radiologist Report (Right)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center">FINDINGS: See impression.  IMPRESSION: Interval removal of a right IJ Swan-Ganz catheter. Sheath remains present. Increased interstitial and alveolar pulmonary edema. Stable small bilateral pleural effusions with slight loculation in the right major fissure.</td>
+      <td style="text-align: center">FINDINGS: Unremarkable cardiomediastinal silhouette.  No consolidation, pleural effusion or pneumothorax.  Basilar reticular fibrotic changes are noted, unchanged.  No acute osseous abnormality identified. IMPRESSION: Stable chest x-ray. No acute cardiopulmonary findings.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><br /></p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">X-Ray</th>
+      <th style="text-align: center">Prompt to LLaVA</th>
+      <th style="text-align: center">LLaVA Generated Report</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center">Left</td>
+      <td style="text-align: center">Generic Prompt</td>
+      <td style="text-align: center">FINDINGS: Lines and Tubes: None. Mediastinum: The cardiomediastinal silhouette is unchanged. No lymphadenopathy is appreciated.  Lungs: The lungs are clear.  Pleura: No pneumothorax or effusion.  Bones and soft tissues: Unchanged. IMPRESSION: No acute cardiopulmonary abnormality.</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">Left</td>
+      <td style="text-align: center">Context Embedded Prompt</td>
+      <td style="text-align: center">FINDINGS: See impression. IMPRESSION: Interval removal of a right IJ sheath. Right chest tubes remain present. Stable small right pneumothorax. Stable interstitial edema.</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">Right</td>
+      <td style="text-align: center">Generic Prompt</td>
+      <td style="text-align: center">FINDINGS: Lines and Tubes: None. Mediastinum: The cardiomediastinal silhouette is unchanged. No lymphadenopathy is appreciated.  Lungs: The lungs are clear.  Pleura: No pneumothorax or effusion.  Bones and soft tissues: Unchanged. IMPRESSION: No acute cardiopulmonary abnormality.</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">Right</td>
+      <td style="text-align: center">Context Embedded Prompt</td>
+      <td style="text-align: center">FINDINGS: Unremarkable cardiomediastinal silhouette. No consolidation, pleural effusion or pneumothorax.  No acute osseous abnormality identified. IMPRESSION: No acute cardiopulmonary findings.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><br /></p>
 
 <div><img src="./imgs/roc_curves_final_generic2.png" width="370" /><img src="./imgs/roc_curves_final.png" width="370" /></div>
 <div><img src="./imgs/report_similarity_generic_2.png" width="370" /><img src="./imgs/report_similarity_context_embedded.png" width="370" /></div>

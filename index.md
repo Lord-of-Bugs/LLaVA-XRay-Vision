@@ -10,9 +10,9 @@ excerpt: "An exploration and navigation of using state-of-the-art Deep Learning 
 This is a a Data Science Capstone Project investigated and put together by **Luke Taylor**, **Muchan Li**, and **Raymond Song** under the mentorship of ***Albert Hsiao, MD, PhD***. All are affiliated with the Halicioglu Data Science Institute at UC San Diego. Professor Hsiao is additionally affiliated with UC San Diego Health and Radiology Department.
 
 <div style="text-align: center; padding: 15px">
-  {% include button.html text="Codebase" icon="github" link="https://github.com/Lord-of-Bugs/LLaVA-XRay-Vision" color="#0366d6" %}
+  {% include button.html text="Codebase" icon="github" link="https://github.com/raymondsong00/Xray-Report-Generator" color="#0366d6" %}
   {% include button.html text="Report 📝" link="https://github.com/Lord-of-Bugs/LLaVA-XRay-Vision" color="#f68140" %}
-  {% include button.html text="Poster 🪧" link="https://github.com/Lord-of-Bugs/LLaVA-XRay-Vision" color="#8594e4" %}
+  {% include button.html text="Poster 🪧" link="https://drive.google.com/file/d/11IWMHwXypiSh9SmqlCkUYjpxBJvzO2lW/view?usp=drivesdk" color="#8594e4" %}
   {% include button.html text="Team Info 👨‍💻" link="/people/" color="#3baea0" %}
 </div>
 
@@ -43,9 +43,14 @@ Deep learning models like convolutional neurla networks (CNNs) have demonstrated
 - Evaluated with cosine similarity scores between bio term specific sentence transformer embeddings.
 - Extracted label probabilities for common lung conditions using Facebook BART zero shot classification to evaluate diagnostic accuracy.
 
-## Results and Analysis
+## Findings and Results
 
-### Similarity Between Generated Reports and Ground Truth
+### Expert Radiologists
+
+### Similarity Between Generated Reports and Expert Ground Truths
+
+<div><img src="./imgs/radiologist_findings_lengths.png" width=370/><img src="./imgs/llava_findings_lengths.png" width=370/></div>
+<div><img src="./imgs/radiologist_impression_lengths.png" width=370/><img src="./imgs/llava_impression_lengths.png" width=370/></div>
 
 ![top-similarity](./imgs/top-10-similarity-author-medians.png)
 Click on each radiologist's name below to learn model's performance with respect to each individual:
@@ -90,7 +95,33 @@ Click on each radiologist's name below to learn model's performance with respect
   <img src="./imgs/Yen-similarity.png">
 </details>
 
+### Prompts Constructed
+
+| Generic Prompt   |      Context Embedded Prompt      |
+|:-:       |:-:           |
+| Write a report for the given chest x-ray. It should contain a clear findings and impression section.  Be explicit for any abnormalities or normal findings. | AUTHOR: {...}, CLINICAL HISTORY: {...}, CONTEXT: {...}, AGE: {...}, SEX: {...}, Based on AUTHOR and CLINICAL HISTORY, suppose you were a radiologist on X-RAY,  could you provide a detailed report from this chest X-ray? |
+
 ### Pathology Detection Outcomes
+
+<div style="text-align:center;">
+  <img src="./imgs/Hofupo_53628087.jpg" width=370/><img src="./imgs/Dietepscat_53989429.jpg" width=370/>
+  <figcaption>Pathology Present (Left) vs. Normal (Right) Chest X-Ray</figcaption>
+</div>
+
+| Radiologist Report (Left)  |      Radiologist Report (Right)      |
+|:-:       |:-:            |
+| FINDINGS: See impression.  IMPRESSION: Interval removal of a right IJ Swan-Ganz catheter. Sheath remains present. Increased interstitial and alveolar pulmonary edema. Stable small bilateral pleural effusions with slight loculation in the right major fissure. | FINDINGS: Unremarkable cardiomediastinal silhouette.  No consolidation, pleural effusion or pneumothorax.  Basilar reticular fibrotic changes are noted, unchanged.  No acute osseous abnormality identified. IMPRESSION: Stable chest x-ray. No acute cardiopulmonary findings. |
+
+<br>
+
+| X-Ray |      Prompt to LLaVA      |  LLaVA Generated Report |
+|:-:     |:-:            |:-:    |
+| Left |  Generic Prompt | FINDINGS: Lines and Tubes: None. Mediastinum: The cardiomediastinal silhouette is unchanged. No lymphadenopathy is appreciated.  Lungs: The lungs are clear.  Pleura: No pneumothorax or effusion.  Bones and soft tissues: Unchanged. IMPRESSION: No acute cardiopulmonary abnormality. |
+| Left |    Context Embedded Prompt   |   FINDINGS: See impression. IMPRESSION: Interval removal of a right IJ sheath. Right chest tubes remain present. Stable small right pneumothorax. Stable interstitial edema. |
+| Right |  Generic Prompt | FINDINGS: Lines and Tubes: None. Mediastinum: The cardiomediastinal silhouette is unchanged. No lymphadenopathy is appreciated.  Lungs: The lungs are clear.  Pleura: No pneumothorax or effusion.  Bones and soft tissues: Unchanged. IMPRESSION: No acute cardiopulmonary abnormality. |
+| Right | Context Embedded Prompt | FINDINGS: Unremarkable cardiomediastinal silhouette. No consolidation, pleural effusion or pneumothorax.  No acute osseous abnormality identified. IMPRESSION: No acute cardiopulmonary findings. |
+
+<br>
 
 <div><img src="./imgs/roc_curves_final_generic2.png" width=370/><img src="./imgs/roc_curves_final.png" width=370/></div>
 <div><img src="./imgs/report_similarity_generic_2.png" width=370/><img src="./imgs/report_similarity_context_embedded.png" width=370/></div>
