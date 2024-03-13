@@ -49,10 +49,11 @@ Deep learning models like convolutional neurla networks (CNNs) have demonstrated
 
 ### Similarity Between Generated Reports and Expert Ground Truths
 
-<div><img src="./imgs/radiologist_findings_lengths.png" width=370/><img src="./imgs/llava_findings_lengths.png" width=370/></div>
-<div><img src="./imgs/radiologist_impression_lengths.png" width=370/><img src="./imgs/llava_impression_lengths.png" width=370/></div>
+<div style="text-align:center;"><img src="./imgs/radiologist_findings_lengths.png" width="48%"/><img src="./imgs/llava_findings_lengths.png" width="48%"/></div>
+<div style="text-align:center;"><img src="./imgs/radiologist_impression_lengths.png" width="48%"/><img src="./imgs/llava_impression_lengths.png" width="48%"/></div>
 
 ![top-similarity](./imgs/top-10-similarity-author-medians.png)
+
 Click on each radiologist's name below to learn model's performance with respect to each individual:
 <details>
   <summary>👨‍⚕️ Dr. Seth Kligerman</summary>
@@ -104,7 +105,7 @@ Click on each radiologist's name below to learn model's performance with respect
 ### Pathology Detection Outcomes
 
 <div style="text-align:center;">
-  <img src="./imgs/Hofupo_53628087.jpg" width=370/><img src="./imgs/Dietepscat_53989429.jpg" width=370/>
+  <img src="./imgs/Hofupo_53628087.jpg" width="48%"/><img src="./imgs/Dietepscat_53989429.jpg" width="48%"/>
   <figcaption>Pathology Present (Left) vs. Normal (Right) Chest X-Ray</figcaption>
 </div>
 
@@ -123,8 +124,8 @@ Click on each radiologist's name below to learn model's performance with respect
 
 <br>
 
-<div><img src="./imgs/roc_curves_final_generic2.png" width=370/><img src="./imgs/roc_curves_final.png" width=370/></div>
-<div><img src="./imgs/report_similarity_generic_2.png" width=370/><img src="./imgs/report_similarity_context_embedded.png" width=370/></div>
+<div style="text-align:center;"><img src="./imgs/roc_curves_final_generic2.png" width="48%"/><img src="./imgs/roc_curves_final.png" width="48%"/></div>
+<div style="text-align:center;"><img src="./imgs/report_similarity_generic_2.png" width="48%"/><img src="./imgs/report_similarity_context_embedded.png" width="48%"/></div>
 
 ![confusion-matrix](./imgs/confusion_matrices.png)
 
