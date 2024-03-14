@@ -129,6 +129,24 @@ Click on each radiologist's name below to learn model's performance with respect
 
 ![confusion-matrix](./imgs/confusion_matrices.png)
 
+<table>
+  <thead>
+  <tr>
+    <th>Company</th>
+    <th>Contact</th>
+    <th>Country</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+    <td>Germany</td>
+  </tr>
+  </tbody>
+  
+</table>
+
 ## Future Directions
 
 ## References

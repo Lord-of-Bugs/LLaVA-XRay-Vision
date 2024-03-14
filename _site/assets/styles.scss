@@ -3,8 +3,17 @@
 // styles: true
 // ---
 
-@import "alembic";
-
-.article.article--page.content.typeset {
-    width: 100%;
+thead tr,
+tr:nth-of-type(2) {
+  background: #f4f4f4;
 }
+
+td {
+  border: 1px solid #f4f4f4;
+}
+
+// .article.article--page.content.typeset {
+//     width: 100%;
+// }
+
+@import "alembic";
