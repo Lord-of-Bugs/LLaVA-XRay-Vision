@@ -49,7 +49,9 @@ In this section, we will present the insights obtained from analyzing the radiog
 
 ### Expert Radiologists
 
-As presented above, we identified 10 most prominent radiologist readers from our X-rays and reports dataset. They are in combine responsible for 86% of the readings in both the training and testing set.
+![reading-dist](./imgs/reading-distribution.png)
+
+As presented above, we identified 10 most prominent radiologist readers (anonymized with pseudonyms) from our X-rays and reports dataset. They are in combine responsible for 86% of the readings in both the training and testing set.
 
 ### Similarity Between Generated Reports and Expert Ground Truths
 
@@ -63,48 +65,48 @@ The above two figures instead present the length in number of characters of radi
 
 ![top-similarity](./imgs/top-10-similarity-author-medians.png)
 
-Presented above is the test-set median cosine similarity scores between the semantic embeddings of LLaVA generated reports and radiologist-provided reports, categorized into each individual radiologist of the top 10 most prominent ones. Most notably, the median score for even the least similar radiologist is still above 0.5, at around 0.53. There are also 5 radiologists that have scores above 0.6, indicating that LLaVA did in fact generate reports in styles similar to original readers' writing.
+Presented above is the test-set median cosine similarity scores between the semantic embeddings of LLaVA generated reports and radiologist-provided reports, categorized into each radiologist of the top 10 most prominent individual. Most notably, the median score for even the least similar radiologist is still above 0.5, at around 0.53. There are also 5 radiologists that have scores above 0.6, indicating that LLaVA did in fact generate reports in styles similar to original readers' writing.
 
 Click on each radiologist's name below to learn more in detail model's performance with respect to that individual:
 <details>
-  <summary>👨‍⚕️ Dr. Seth Kligerman</summary>
-  <img src="./imgs/Kligerman-similarity.png"/>
+  <summary>👨‍⚕️👩‍⚕️ Dr. Eren Yeager</summary>
+  <img src="./imgs/Yeager-similarity.png"/>
 </details>
 <details>
-  <summary>👨‍⚕️ Dr. Lewis Hahn</summary>
-  <img src="./imgs/Hahn-similarity.png"/>
+  <summary>👨‍⚕️👩‍⚕️ Dr. Sasha Braus</summary>
+  <img src="./imgs/Braus-similarity.png"/>
 </details>
 <details>
-  <summary>👨‍⚕️ Dr. Michael Horowitz</summary>
-  <img src="./imgs/Horowitz-similarity.png"/>
+  <summary>👨‍⚕️👩‍⚕️ Dr. Erwin Smith</summary>
+  <img src="./imgs/Smith-similarity.png"/>
 </details>
 <details>
-  <summary>👨‍⚕️ Dr. Ravi Rajpoot</summary>
-  <img src="./imgs/Rajpoot-similarity.png"/>
+  <summary>👨‍⚕️👩‍⚕️ Dr. Thorfinn Thorsson</summary>
+  <img src="./imgs/Thorsson-similarity.png"/>
 </details>
 <details>
-  <summary>👩‍⚕️ Dr. Sharon Brouha</summary>
-  <img src="./imgs/Brouha-similarity.png"/>
+  <summary>👨‍⚕️👩‍⚕️ Dr. Mikasa Ackerman</summary>
+  <img src="./imgs/Ackerman-similarity.png"/>
 </details>
 <details>
-  <summary>👩‍⚕️ Dr. Kathleen Jacobs</summary>
-  <img src="./imgs/Jacobs-similarity.png"/>
+  <summary>👨‍⚕️👩‍⚕️ Dr. Edward Elric</summary>
+  <img src="./imgs/Elric-similarity.png"/>
 </details>
 <details>
-  <summary>👩‍⚕️ Dr. Elizabeth Weihe</summary>
-  <img src="./imgs/Weihe-similarity.png"/>
+  <summary>👨‍⚕️👩‍⚕️ Dr. Kenzo Tenma</summary>
+  <img src="./imgs/Tenma-similarity.png"/>
 </details>
 <details>
-  <summary>👨‍⚕️ Dr. Albert Hsiao</summary>
-  <img src="./imgs/Hsiao-similarity.png"/>
+  <summary>👨‍⚕️👩‍⚕️ Dr. Johan Liebert</summary>
+  <img src="./imgs/Liebert-similarity.png"/>
 </details>
 <details>
-  <summary>👨‍⚕️ Dr. William Ladd</summary>
-  <img src="./imgs/Ladd-similarity.png"/>
+  <summary>👨‍⚕️👩‍⚕️ Dr. Luffy Monkey</summary>
+  <img src="./imgs/Monkey-similarity.png"/>
 </details>
 <details>
-  <summary>👨‍⚕️ Dr. Andrew Yen</summary>
-  <img src="./imgs/Yen-similarity.png">
+  <summary>👨‍⚕️👩‍⚕️ Dr. Light Yagami</summary>
+  <img src="./imgs/Yagami-similarity.png">
 </details>
 
 ### Prompts Constructed
@@ -140,7 +142,7 @@ Then, when we prompted LLaVA with the context-embedded prompt, we can see that L
 
 #### Quantified Outcomes
 
-<div style="padding-top: 10px; text-align:center; width=100%;"><img src="./imgs/roc_curves_final_generic2.png" width="48%"/><img src="./imgs/roc_curves_final.png" width="48%"/></div>
+<div style="padding-top: 20px; text-align:center; width=100%;"><img src="./imgs/roc_curves_final_generic2.png" width="48%"/><img src="./imgs/roc_curves_final.png" width="48%"/></div>
 
 According to the ROC plot on the left, LLaVA's accuracy in detecting pathological entities when prompted using the generic prompt is no better than random chance (represented by the dotted diagonal line), with the highest area under the curve (AUC) at 0.53 for detecting cardiomegaly in its generated reports.
 
@@ -154,7 +156,14 @@ The histogram on the left represents the test-set cosine similarity scores betwe
 
 ![confusion-matrix](./imgs/confusion_matrices.png)
 
+As presented by the confusion matrices above with regard to 6 most prominent pathologies present in our dataset, which are cardiomegaly, pleural effusion, edema, pneumothorax, pneumonia, and rib fracture, our model is good at detecting and confirming true negative (labeled negative and predicted to be negative as well) pathology entities, as exemplified by the darker bottom right quadrant. However, it is not very effective in detecting true positive cases, with the number of true positives identified to be the least among all four quadrants for all 6 pathologies. It is also worth noting that this skew in performance might be hindered due to the intrinsic imbalance in our data. As an example, there are very few true labels for rib fracture, as shown in the last confusion matrix, because this condition is rare in practice. Hence the model likely did not learn enough feature representations of rib fracture to make a good prediction in the first place.
+
 ## Future Directions
+
+- Do an ablation study and remove a part of the context and see the contribution that each part of the context affects the outputs of the model.
+- Remove the vision encoder and train just the language model Vicuna-13b to see how much LLaVA’s report generation is influenced by the image features.
+- Change the vision encoder tower since the pretrained CLIP ViT-L/14 is only trained on general-purpose images and text labels.
+- Test out different adapter models other the Multilayer Perceptron used in the current LLaVA architecture, such as Query Transformer presented in BLIP-2.
 
 ## References
 
