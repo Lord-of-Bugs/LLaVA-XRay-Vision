@@ -54,11 +54,18 @@ As presented above, we identified 10 most prominent radiologist readers from our
 ### Similarity Between Generated Reports and Expert Ground Truths
 
 <div style="text-align:center; width=100%;"><img src="./imgs/radiologist_findings_lengths.png" width="48%"/><img src="./imgs/llava_findings_lengths.png" width="48%"/></div>
+
+As shown by the above two figures, the length in number of characters of radiologist-provided reports and LLaVA-generated reports (using **context-embedded** prompt, see below) **impression** sections are comparable. The only identifiable shortcoming is that LLaVA does not tend to generate longer reports well, characterized by the smaller bar in the middle between *200 characters* and *400 characters*.
+
 <div style="text-align:center; width=100%;"><img src="./imgs/radiologist_impression_lengths.png" width="48%"/><img src="./imgs/llava_impression_lengths.png" width="48%"/></div>
+
+The above two figures instead present the length in number of characters of radiologist-provided reports and LLaVA-generated reports (obtained using **context-embedded** prompt) **findings** sections. Both are once again comparable, except that LLaVA now tends to produce longer **findings** than ground truths.
 
 ![top-similarity](./imgs/top-10-similarity-author-medians.png)
 
-Click on each radiologist's name below to learn model's performance with respect to each individual:
+Presented above is the test-set median cosine similarity scores between the semantic embeddings of LLaVA generated reports and radiologist-provided reports, categorized into each individual radiologist of the top 10 most prominent ones. Most notably, the median score for even the least similar radiologist is still above 0.5, at around 0.53. There are also 5 radiologists that have scores above 0.6, indicating that LLaVA did in fact generate reports in styles similar to original readers' writing.
+
+Click on each radiologist's name below to learn more in detail model's performance with respect to that individual:
 <details>
   <summary>👨‍⚕️ Dr. Seth Kligerman</summary>
   <img src="./imgs/Kligerman-similarity.png"/>
