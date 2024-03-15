@@ -33,8 +33,8 @@ Deep learning models like convolutional neurla networks (CNNs) have demonstrated
 
 ## Methods
 
-- About 100K Chest Radiographs and their text reports from UCSD Health
-  - Among which, about 97000 images are used to fine-tune the model, and about 2000 images are reserved as the test set.
+- About 100K Chest Radiographs and their text reports from UCSD Health.
+  - We split our data so that there are 96119 x-ray images and corresponding reports for training and 2088 pairs for testing.
 - Fine-tuned a Large Language Model (LLM) with vision capabilities instead of training both a vision CNN tower and a LLM from scratch
 - Using Large Language and Vision Assistant v1.5 (LLaVA, see [1][2][3]) as the base model which is based on Vicuna 13B v1.5 and CLIP ViT-L/14 visual encoder
 - Input is an X-ray and then a prompt that may include information about the previous clinical history and additional patient context.
@@ -48,6 +48,8 @@ Deep learning models like convolutional neurla networks (CNNs) have demonstrated
 In this section, we will present the insights obtained from analyzing the radiograph reports and training and testing different tricks to LLaVA model. We will focus our presentation more on the latter.
 
 ### Expert Radiologists
+
+As presented above, we identified 10 most prominent radiologist readers from our X-rays and reports dataset. They are in combine responsible for 86% of the readings in both the training and testing set.
 
 ### Similarity Between Generated Reports and Expert Ground Truths
 

@@ -251,9 +251,9 @@
 <h2 id="methods">Methods</h2>
 
 <ul>
-  <li>About 100K Chest Radiographs and their text reports from UCSD Health
+  <li>About 100K Chest Radiographs and their text reports from UCSD Health.
     <ul>
-      <li>Among which, about 97000 images are used to fine-tune the model, and about 2000 images are reserved as the test set.</li>
+      <li>We split our data so that there are 96119 x-ray images and corresponding reports for training and 2088 pairs for testing.</li>
     </ul>
   </li>
   <li>Fine-tuned a Large Language Model (LLM) with vision capabilities instead of training both a vision CNN tower and a LLM from scratch</li>
@@ -270,6 +270,8 @@
 <p>In this section, we will present the insights obtained from analyzing the radiograph reports and training and testing different tricks to LLaVA model. We will focus our presentation more on the latter.</p>
 
 <h3 id="expert-radiologists">Expert Radiologists</h3>
+
+<p>As presented above, we identified 10 most prominent radiologist readers from our X-rays and reports dataset. They are in combine responsible for 86% of the readings in both the training and testing set.</p>
 
 <h3 id="similarity-between-generated-reports-and-expert-ground-truths">Similarity Between Generated Reports and Expert Ground Truths</h3>
 
