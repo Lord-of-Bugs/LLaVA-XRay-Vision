@@ -257,7 +257,7 @@
     </ul>
   </li>
   <li>Fine-tuned a Large Language Model (LLM) with vision capabilities instead of training both a vision CNN tower and a LLM from scratch</li>
-  <li>Using Large Language and Vision Assistant v1.5 (LLaVA)[1][2][3] as the base model which is based on Vicuna 13B v1.5 and CLIP ViT-L/14 visual encoder</li>
+  <li>Using Large Language and Vision Assistant v1.5 (LLaVA, see [1][2][3]) as the base model which is based on Vicuna 13B v1.5 and CLIP ViT-L/14 visual encoder</li>
   <li>Input is an X-ray and then a prompt that may include information about the previous clinical history and additional patient context.</li>
   <li>Ground truth output is actual radiologist report for the corresponding X-ray</li>
   <li>The fine-tuning of the model was done using a Nvidia RTX A6000 with LORA adapters due to GPU memory constraints.</li>
@@ -266,6 +266,8 @@
 </ul>
 
 <h2 id="findings-and-results">Findings and Results</h2>
+
+<p>In this section, we will present the insights obtained from analyzing the radiograph reports and training and testing different tricks to LLaVA model. We will focus our presentation more on the latter.</p>
 
 <h3 id="expert-radiologists">Expert Radiologists</h3>
 
@@ -320,105 +322,67 @@
 
 <h3 id="prompts-constructed">Prompts Constructed</h3>
 
-<table>
-  <thead>
-    <tr>
-      <th style="text-align: center">Generic Prompt</th>
-      <th style="text-align: center">Context Embedded Prompt</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align: center">Write a report for the given chest x-ray. It should contain a clear findings and impression section.  Be explicit for any abnormalities or normal findings.</td>
-      <td style="text-align: center">AUTHOR: {…}, CLINICAL HISTORY: {…}, CONTEXT: {…}, AGE: {…}, SEX: {…}, Based on AUTHOR and CLINICAL HISTORY, suppose you were a radiologist on X-RAY,  could you provide a detailed report from this chest X-ray?</td>
-    </tr>
-  </tbody>
-</table>
+<p><img src="./imgs/prompt.png" alt="prompt" /></p>
+
+<p>The prompt on the left is designed to be generic, similar to the one used in [4] for querying model responses. It serves as our benchmark. The prompt on the right is more context-embedded and -specific. It’s design is largely inspired by the spirits of chain-of-thought prompting proposed in [5]. We aim to embed more patient history and x-ray context in prompting the model to give a more holistic reading of the x-ray, treating as if it is a real diagnostic expert.</p>
+
+<hr />
 
 <h3 id="pathology-detection-outcomes">Pathology Detection Outcomes</h3>
 
-<div style="text-align:center; width=100%;">
+<h4 id="x-rays-and-ground-truths">X-Rays and Ground Truths</h4>
+
+<div style="padding-top: 10px; text-align:center; width=100%;">
   <img src="./imgs/Hofupo_53628087.jpg" width="48%" /><img src="./imgs/Dietepscat_53989429.jpg" width="48%" />
   <figcaption>Pathology Present (Left) vs. Normal (Right) Chest X-Ray</figcaption>
 </div>
 
-<table>
-  <thead>
-    <tr>
-      <th style="text-align: center">Radiologist Report (Left)</th>
-      <th style="text-align: center">Radiologist Report (Right)</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align: center">FINDINGS: See impression.  IMPRESSION: Interval removal of a right IJ Swan-Ganz catheter. Sheath remains present. Increased interstitial and alveolar pulmonary edema. Stable small bilateral pleural effusions with slight loculation in the right major fissure.</td>
-      <td style="text-align: center">FINDINGS: Unremarkable cardiomediastinal silhouette.  No consolidation, pleural effusion or pneumothorax.  Basilar reticular fibrotic changes are noted, unchanged.  No acute osseous abnormality identified. IMPRESSION: Stable chest x-ray. No acute cardiopulmonary findings.</td>
-    </tr>
-  </tbody>
-</table>
+<p><img src="./imgs/ground-truth-report.png" alt="ground-truth" /></p>
 
-<p><br /></p>
+<hr />
 
-<table>
-  <thead>
-    <tr>
-      <th style="text-align: center">X-Ray</th>
-      <th style="text-align: center">Prompt to LLaVA</th>
-      <th style="text-align: center">LLaVA Generated Report</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align: center">Left</td>
-      <td style="text-align: center">Generic Prompt</td>
-      <td style="text-align: center">FINDINGS: Lines and Tubes: None. Mediastinum: The cardiomediastinal silhouette is unchanged. No lymphadenopathy is appreciated.  Lungs: The lungs are clear.  Pleura: No pneumothorax or effusion.  Bones and soft tissues: Unchanged. IMPRESSION: No acute cardiopulmonary abnormality.</td>
-    </tr>
-    <tr>
-      <td style="text-align: center">Left</td>
-      <td style="text-align: center">Context Embedded Prompt</td>
-      <td style="text-align: center">FINDINGS: See impression. IMPRESSION: Interval removal of a right IJ sheath. Right chest tubes remain present. Stable small right pneumothorax. Stable interstitial edema.</td>
-    </tr>
-    <tr>
-      <td style="text-align: center">Right</td>
-      <td style="text-align: center">Generic Prompt</td>
-      <td style="text-align: center">FINDINGS: Lines and Tubes: None. Mediastinum: The cardiomediastinal silhouette is unchanged. No lymphadenopathy is appreciated.  Lungs: The lungs are clear.  Pleura: No pneumothorax or effusion.  Bones and soft tissues: Unchanged. IMPRESSION: No acute cardiopulmonary abnormality.</td>
-    </tr>
-    <tr>
-      <td style="text-align: center">Right</td>
-      <td style="text-align: center">Context Embedded Prompt</td>
-      <td style="text-align: center">FINDINGS: Unremarkable cardiomediastinal silhouette. No consolidation, pleural effusion or pneumothorax.  No acute osseous abnormality identified. IMPRESSION: No acute cardiopulmonary findings.</td>
-    </tr>
-  </tbody>
-</table>
+<h4 id="model-generated-reports">Model Generated Reports</h4>
 
-<p><br /></p>
+<p><img src="./imgs/llava-response.png" alt="llava-response" /></p>
 
-<div style="text-align:center; width=100%;"><img src="./imgs/roc_curves_final_generic2.png" width="48%" /><img src="./imgs/roc_curves_final.png" width="48%" /></div>
+<p>One can see that when LLaVA is prompted with the baseline generic prompt, the readings responses to both X-rays, regardless of pathological entities, are simply direct copies of each other. This indicates that either LLaVA has not learned any X-ray specific imaging feature and just memorized the report text (since the prompt are first fed to the model via fine-tuning), or that the prompt is not specific enough to elicit reasoning.</p>
+
+<p>Then, when we prompted LLaVA with the context-embedded prompt, we can see that LLaVA instead can articulate distinct findings with regard to each X-ray. Specifically, since we provided the corresponding radiologist reader, the model did better in memorizing and mimicking reader-specific reporting style. Moreover, the seemingly increased pathology detection accuracy–as an example, <strong>LLaVA correctly identified interval removal of a right IJ (sheath)</strong>–suggests that model is now better at comprehending the task and retrieving the relevant vision and language features.</p>
+
+<hr />
+
+<h4 id="quantified-outcomes">Quantified Outcomes</h4>
+
+<div style="padding-top: 10px; text-align:center; width=100%;"><img src="./imgs/roc_curves_final_generic2.png" width="48%" /><img src="./imgs/roc_curves_final.png" width="48%" /></div>
+
+<p>According to the ROC plot on the left, LLaVA’s accuracy in detecting pathological entities when prompted using the generic prompt is no better than random chance (represented by the dotted diagonal line), with the highest area under the curve (AUC) at 0.53 for detecting cardiomegaly in its generated reports.</p>
+
+<p>According to the ROC plot on the right, LLaVA’s accuracy in detecting pathological entities when prompted using the context-embedded prompt has increased, with AUC for all pathological entities placed above 0.50. The best detection accuracy LLaVA’s presented is in identifying pneumothorax, with AUC at 0.73. This AUC score is considered fair by conventional standards.</p>
+
 <div style="text-align:center; width=100%;"><img src="./imgs/report_similarity_generic_2.png" width="48%" /><img src="./imgs/report_similarity_context_embedded.png" width="48%" /></div>
 
-<p><img src="./imgs/confusion_matrices.png" alt="confusion-matrix" /></p>
+<p>The histogram on the left represents the test-set cosine similarity scores between the semantic embeddings of LLaVA generated reports according to the <strong>genetic prompt</strong> and corresponding ground truth reports. The distribution is approximately normal, centered at 0.52.</p>
 
-<table>
-  <thead>
-  <tr>
-    <th>Company</th>
-    <th>Contact</th>
-    <th>Country</th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr>
-    <td>Alfreds Futterkiste</td>
-    <td>Maria Anders</td>
-    <td>Germany</td>
-  </tr>
-  </tbody>
-  
-</table>
+<p>The histogram on the left represents the test-set cosine similarity scores between the semantic embeddings of LLaVA generated reports according to the <strong>context-embedded prompt</strong> and corresponding ground truth reports. The distribution is more left-skewed, with a diminishing tail in the low-scoring regions. It is now centered at 0.63, indicating that the responses are now more semantically similar to ground truths compared to the ones before, which means LLaVA has indeed learned to mimic the reporting of each radiologist more closely.</p>
+
+<p><img src="./imgs/confusion_matrices.png" alt="confusion-matrix" /></p>
 
 <h2 id="future-directions">Future Directions</h2>
 
 <h2 id="references">References</h2>
+
+<p>[1] Haotian Liu, Chunyuan Li, Yuheng Li, and Yong Jae Lee.
+Improved baselines with visual instruction tuning, 2023.</p>
+
+<p>[2] Haotian Liu, Chunyuan Li, Yuheng Li, Bo Li, Yuanhan Zhang, Sheng Shen, and
+Yong Jae Lee. Llava-next: Improved reasoning, ocr, and world knowledge, January 2024.</p>
+
+<p>[3] Haotian Liu, Chunyuan Li, Qingyang Wu, and Yong Jae Lee.
+Visual instruction tuning, 2023.</p>
+
+<p>[4] Sun, Yuxuan, et al. “Pathasst: Redefining pathology through generative foundation ai assistant for pathology.” arXiv preprint arXiv:2305.15072 (2023).</p>
+
+<p>[5] Wei, Jason, et al. “Chain-of-thought prompting elicits reasoning in large language models.” Advances in neural information processing systems 35 (2022): 24824-24837.</p>
 
 
   </article>
